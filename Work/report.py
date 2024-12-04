@@ -438,9 +438,71 @@
 # for row in report:
     # print('%10s %10d %10.2f %10.2f' % row)
     
-# Exercise 2.12
+# # Exercise 2.12
+
+# import csv
+
+# def read_prices(filename):
+    # '''
+    # Read a CSV file of price date in a dict mapping names to prices.
+    # '''
+    # prices = {}
+    # with open(filename) as f:
+        # rows = csv.reader(f)
+        # for row in rows:
+            # try:
+                # prices[row[0]] = float(row[1])
+            # except IndexError:
+                # pass
+                
+    # return prices
+
+# def read_portfolio(filename):
+    # '''
+    # Read a stock portfolio file into a list of dictionaries with keys
+    # name, shares, and price.
+    # '''
+    # portfolio = []
+    # with open(filename) as f:
+        # rows    = csv.reader(f)
+        # headers = next(rows)
+        
+        # for row in rows:
+            # stock = {
+                # 'name'   : row[0],
+                # 'shares' : int(row[1]),
+                # 'price'  : float(row[2])
+            # }
+            # portfolio.append(stock)
+            
+    # return portfolio
+
+# def make_report(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
+        # holding.append(stock)
+        
+    # return holding
+
+# print(f'\n{'Name': >10}{'Shares': >11}{'Price': >11}{'Change': >11}')
+# print(f'{'----------': >10}{'----------': >11}{'----------': >11}{'----------': >11}')
+
+# portfolio = read_portfolio('Data/portfolio.csv')
+# prices    = read_prices('Data/prices.csv')
+
+# report = make_report(portfolio, prices)
+
+# for r in report:
+    # print('%10s %10d %10s %10.2f' % (r[0], r[1], '$%.2f' % r[2], r[3])) # Co-pilot helped to write this part
+
+
+# Exercise 2.16b: Using the zip() function
 
 import csv
+import sys
 
 def read_prices(filename):
     '''
@@ -462,19 +524,21 @@ def read_portfolio(filename):
     Read a stock portfolio file into a list of dictionaries with keys
     name, shares, and price.
     '''
-    portfolio = []len
+    portfolio = []
     with open(filename) as f:
         rows    = csv.reader(f)
         headers = next(rows)
         
-        for row in rows:
-            stock = {
-                'name'   : row[0],
-                'shares' : int(row[1]),
-                'price'  : float(row[2])
-            }
-            portfolio.append(stock)
+        for row_no, row in enumerate(rows, start=1):
+            record = dict(zip(headers, row))
             
+            try:
+                record['shares'] = int(record['shares'])
+                record['price'] = float(record['price'])
+                portfolio.append(record)
+            except ValueError:
+                pass
+                
     return portfolio
 
 def make_report(portfolio, prices):
@@ -490,7 +554,12 @@ def make_report(portfolio, prices):
 print(f'\n{'Name': >10}{'Shares': >11}{'Price': >11}{'Change': >11}')
 print(f'{'----------': >10}{'----------': >11}{'----------': >11}{'----------': >11}')
 
-portfolio = read_portfolio('Data/portfolio.csv')
+if len(sys.argv) == 2:
+    filename = sys.argv[1]
+else:
+    filename = 'Data/portfolio.csv'
+
+portfolio = read_portfolio(filename)
 prices    = read_prices('Data/prices.csv')
 
 report = make_report(portfolio, prices)

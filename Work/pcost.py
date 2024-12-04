@@ -126,16 +126,94 @@
 # cost = portfolio_cost('Data/portfolio.csv')
 # print('Total cost:', cost)
 
-# pcost.py
-#
-# Exercise 1.33: Reading from the command line (Pass the name of the file in as an argument, in the terminal, to a script)
+
+# # Exercise 1.33: Reading from the command line (Pass the name of the file in as an argument, in the terminal, to a script)
+
+# import csv
+# import sys
+
+# def portfolio_cost(filename):
+    
+    # 'This function calculates the total cost of the portfolio in the file'
+    
+    # total_cost = 0.0
+    
+    # with open(filename, 'rt') as f:
+        
+        # rows = csv.reader(f)
+        
+        # headers = next(rows)
+        
+        # # print(headers)
+        
+        # for row in rows:
+            
+            # try:
+                # nshares = int(row[1])
+                # price = float(row[2])
+                # total_cost += nshares * price
+            # except ValueError:
+                # print("Couldn't parse", row)
+            
+    # return total_cost
+   
+# if len(sys.argv) == 2:
+    # filename = sys.argv[1]
+# else:
+    # filename = 'Data/portfolio.csv'
+    
+# cost = portfolio_cost(filename)
+# print('Total cost:', cost)
+
+
+# # Exercise 2.15: A practical enumerate() example (Using enumerate(), modify the program to print line number with warning message when it encounters bad input)
+
+# import csv
+# import sys
+
+# def portfolio_cost(filename):
+    # '''    
+    # This function calculates the total cost of the portfolio in the file
+    # '''
+    
+    # total_cost = 0.0
+    
+    # with open(filename, 'rt') as f:
+        
+        # rows = csv.reader(f)
+        
+        # headers = next(rows)
+        
+        # for row_no, row in enumerate(rows, start=1):
+            
+            # try:
+                # nshares = int(row[1])
+                # price = float(row[2])
+                # total_cost += nshares * price
+                # print(f"Row {row_no}: Converted")
+            # except ValueError:
+                # print(f"Row {row_no}: Couldn't convert: {row}")
+            
+    # return total_cost
+   
+# if len(sys.argv) == 2:
+    # filename = sys.argv[1]
+# else:
+    # filename = 'Data/portfolio.csv'
+    
+# cost = portfolio_cost(filename)
+# print(f"Total cost: {cost}")
+
+
+# Exercise 2.16a: Using the zip() function
 
 import csv
 import sys
 
 def portfolio_cost(filename):
-    
-    'This function calculates the total cost of the portfolio in the file'
+    '''    
+    This function calculates the total cost of the portfolio in the file
+    '''
     
     total_cost = 0.0
     
@@ -145,16 +223,15 @@ def portfolio_cost(filename):
         
         headers = next(rows)
         
-        # print(headers)
-        
-        for row in rows:
-            
+        for row_no, row in enumerate(rows, start=1):
+            record = dict(zip(headers, row))
             try:
-                nshares = int(row[1])
-                price = float(row[2])
+                nshares = int(record['shares'])
+                price = float(record['price'])
                 total_cost += nshares * price
+                # print(f"Row {row_no}: Converted")
             except ValueError:
-                print("Couldn't parse", row)
+                print(f"Row {row_no}: Bad row: {row}")
             
     return total_cost
    
@@ -164,4 +241,4 @@ else:
     filename = 'Data/portfolio.csv'
     
 cost = portfolio_cost(filename)
-print('Total cost:', cost)
+print(f"Total cost: {cost}")
