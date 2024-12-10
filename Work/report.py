@@ -122,7 +122,8 @@
     # print(f"\nLoss is {gain: .2f}")
 # else:
     # print(f"\nGain is {gain: .2f}")
-    
+
+
 # # report.py
 # #
 # # Solution
@@ -370,6 +371,7 @@
 # for r in report:
     # print('%10s %10d %10s %10.2f' % r)
 
+
 # # Solution 2.11
 
 # import csv
@@ -437,6 +439,7 @@
 # print(('-' * 10 + ' ') * len(headers))
 # for row in report:
     # print('%10s %10d %10.2f %10.2f' % row)
+
     
 # # Exercise 2.12
 
@@ -499,7 +502,144 @@
     # print('%10s %10d %10s %10.2f' % (r[0], r[1], '$%.2f' % r[2], r[3])) # Co-pilot helped to write this part
 
 
-# Exercise 2.16b: Using the zip() function
+# # Exercise 2.16b: Using the zip() function
+
+# import csv
+# import sys
+
+# def read_prices(filename):
+    # '''
+    # Read a CSV file of price date in a dict mapping names to prices.
+    # '''
+    # prices = {}
+    # with open(filename) as f:
+        # rows = csv.reader(f)
+        # for row in rows:
+            # try:
+                # prices[row[0]] = float(row[1])
+            # except IndexError:
+                # pass
+                
+    # return prices
+
+# def read_portfolio(filename):
+    # '''
+    # Read a stock portfolio file into a list of dictionaries with keys
+    # name, shares, and price.
+    # '''
+    # portfolio = []
+    # with open(filename) as f:
+        # rows    = csv.reader(f)
+        # headers = next(rows)
+        
+        # for row_no, row in enumerate(rows, start=1):
+            # record = dict(zip(headers, row))
+            
+            # try:
+                # record['shares'] = int(record['shares'])
+                # record['price'] = float(record['price'])
+                # portfolio.append(record)
+            # except ValueError:
+                # pass
+                
+    # return portfolio
+
+# def make_report(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
+        # holding.append(stock)
+        
+    # return holding
+
+# print(f'\n{'Name': >10}{'Shares': >11}{'Price': >11}{'Change': >11}')
+# print(f'{'----------': >10}{'----------': >11}{'----------': >11}{'----------': >11}')
+
+# if len(sys.argv) == 2:
+    # filename = sys.argv[1]
+# else:
+    # filename = 'Data/portfolio.csv'
+
+# portfolio = read_portfolio(filename)
+# prices    = read_prices('Data/prices.csv')
+
+# report = make_report(portfolio, prices)
+
+# for r in report:
+    # print('%10s %10d %10s %10.2f' % (r[0], r[1], '$%.2f' % r[2], r[3])) # Co-pilot helped to write this part
+
+
+# # Exercise 3.1
+
+# import csv
+
+# def read_prices(filename):
+    # '''
+    # Read a CSV file of price date in a dict mapping names to prices.
+    # '''
+    # prices = {}
+    # with open(filename) as f:
+        # rows = csv.reader(f)
+        # for row in rows:
+            # try:
+                # prices[row[0]] = float(row[1])
+            # except IndexError:
+                # pass
+                
+    # return prices
+
+# def read_portfolio(filename):
+    # '''
+    # Read a stock portfolio file into a list of dictionaries with keys
+    # name, shares, and price.
+    # '''
+    # portfolio = []
+    # with open(filename) as f:
+        # rows    = csv.reader(f)
+        # headers = next(rows)
+        
+        # for row_no, row in enumerate(rows, start=1):
+            # record = dict(zip(headers, row))
+            
+            # try:
+                # record['shares'] = int(record['shares'])
+                # record['price'] = float(record['price'])
+                # portfolio.append(record)
+            # except ValueError:
+                # pass
+                
+    # return portfolio
+
+# def make_report_data(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
+        # holding.append(stock)
+        
+    # return holding
+
+# def print_report(reportdata):
+    # '''
+    # This function prints a tabulated report of any data inputted as reportdata
+    # '''
+    # headers = ('\nName', 'Shares', 'Price', 'Change')
+    # print('%10s %10s %10s %10s' % headers)
+    # print(('-' * 10 + ' ') * len(headers))
+    
+    # portfolio = read_portfolio(reportdata)
+    # prices    = read_prices('Data/prices.csv')
+        
+    # report = make_report_data(portfolio, prices)
+    
+    # for r in report:
+        # print('%10s %10d %10s %10.2f' % (r[0], r[1], '$%.2f' % r[2], r[3]))
+
+
+# Exercise 3.2
 
 import csv
 import sys
@@ -541,7 +681,7 @@ def read_portfolio(filename):
                 
     return portfolio
 
-def make_report(portfolio, prices):
+def make_report_data(portfolio, prices):
     
     holding = []
     
@@ -551,18 +691,31 @@ def make_report(portfolio, prices):
         
     return holding
 
-print(f'\n{'Name': >10}{'Shares': >11}{'Price': >11}{'Change': >11}')
-print(f'{'----------': >10}{'----------': >11}{'----------': >11}{'----------': >11}')
+def print_report(reportdata):
+    '''
+    This function prints a tabulated report of any data inputted as reportdata
+    '''
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print('%10s %10s %10s %10s' % headers)
+    print(('-' * 10 + ' ') * len(headers))
+    
+    for row in reportdata:
+        print('%10s %10d %10.2f %10.2f' % row)
 
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
+def portfolio_report(portfolio_filename, prices_filename):
+    
+    portfolio = read_portfolio(portfolio_filename)
+    prices    = read_prices(prices_filename)
+        
+    report = make_report_data(portfolio, prices)
+
+    print_report(report)        
+
+if len(sys.argv) == 3:
+    portfolio_filename = sys.argv[1]
+    prices_filename = sys.argv[2]
 else:
-    filename = 'Data/portfolio.csv'
+    portfolio_filename = 'Data/portfolio.csv'
+    prices_filename = 'Data/prices.csv'
 
-portfolio = read_portfolio(filename)
-prices    = read_prices('Data/prices.csv')
-
-report = make_report(portfolio, prices)
-
-for r in report:
-    print('%10s %10d %10s %10.2f' % (r[0], r[1], '$%.2f' % r[2], r[3])) # Co-pilot helped to write this part
+portfolio_report(portfolio_filename, prices_filename)
