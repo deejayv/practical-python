@@ -639,47 +639,103 @@
         # print('%10s %10d %10s %10.2f' % (r[0], r[1], '$%.2f' % r[2], r[3]))
 
 
-# Exercise 3.2
+# # Exercise 3.2
 
-import csv
+# import csv
+# import sys
+
+# def read_prices(filename):
+    # '''
+    # Read a CSV file of price date in a dict mapping names to prices.
+    # '''
+    # prices = {}
+    # with open(filename) as f:
+        # rows = csv.reader(f)
+        # for row in rows:
+            # try:
+                # prices[row[0]] = float(row[1])
+            # except IndexError:
+                # pass
+                
+    # return prices
+
+# def read_portfolio(filename):
+    # '''
+    # Read a stock portfolio file into a list of dictionaries with keys
+    # name, shares, and price.
+    # '''
+    # portfolio = []
+    # with open(filename) as f:
+        # rows    = csv.reader(f)
+        # headers = next(rows)
+        
+        # for row_no, row in enumerate(rows, start=1):
+            # record = dict(zip(headers, row))
+            
+            # try:
+                # record['shares'] = int(record['shares'])
+                # record['price'] = float(record['price'])
+                # portfolio.append(record)
+            # except ValueError:
+                # pass
+                
+    # return portfolio
+
+# def make_report_data(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
+        # holding.append(stock)
+        
+    # return holding
+
+# def print_report(reportdata):
+    # '''
+    # This function prints a tabulated report of any data inputted as reportdata
+    # '''
+    # headers = ('Name', 'Shares', 'Price', 'Change')
+    # print('%10s %10s %10s %10s' % headers)
+    # print(('-' * 10 + ' ') * len(headers))
+    
+    # for row in reportdata:
+        # print('%10s %10d %10.2f %10.2f' % row)
+
+# def portfolio_report(portfolio_filename, prices_filename):
+    
+    # portfolio = read_portfolio(portfolio_filename)
+    # prices    = read_prices(prices_filename)
+        
+    # report = make_report_data(portfolio, prices)
+
+    # print_report(report)        
+
+# if len(sys.argv) == 3:
+    # portfolio_filename = sys.argv[1]
+    # prices_filename = sys.argv[2]
+# else:
+    # portfolio_filename = 'Data/portfolio.csv'
+    # prices_filename = 'Data/prices.csv'
+
+# portfolio_report(portfolio_filename, prices_filename)
+
+# Exercise 3.12: Using library module
+
 import sys
+import fileparse
 
 def read_prices(filename):
     '''
-    Read a CSV file of price date in a dict mapping names to prices.
+    Use parse_csv module to read prices
     '''
-    prices = {}
-    with open(filename) as f:
-        rows = csv.reader(f)
-        for row in rows:
-            try:
-                prices[row[0]] = float(row[1])
-            except IndexError:
-                pass
-                
-    return prices
+    return dict(fileparse.parse_csv(filename, has_headers=False, types=[str,float]))
 
 def read_portfolio(filename):
     '''
-    Read a stock portfolio file into a list of dictionaries with keys
-    name, shares, and price.
+    Use parse_csv module to read portfolio
     '''
-    portfolio = []
-    with open(filename) as f:
-        rows    = csv.reader(f)
-        headers = next(rows)
-        
-        for row_no, row in enumerate(rows, start=1):
-            record = dict(zip(headers, row))
-            
-            try:
-                record['shares'] = int(record['shares'])
-                record['price'] = float(record['price'])
-                portfolio.append(record)
-            except ValueError:
-                pass
-                
-    return portfolio
+    return fileparse.parse_csv(filename, types=[str, int, float], select=['name', 'shares', 'price'])
 
 def make_report_data(portfolio, prices):
     
@@ -709,8 +765,8 @@ def portfolio_report(portfolio_filename, prices_filename):
         
     report = make_report_data(portfolio, prices)
 
-    print_report(report)        
-
+    print_report(report)
+    
 if len(sys.argv) == 3:
     portfolio_filename = sys.argv[1]
     prices_filename = sys.argv[2]
@@ -719,3 +775,5 @@ else:
     prices_filename = 'Data/prices.csv'
 
 portfolio_report(portfolio_filename, prices_filename)
+
+# portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
