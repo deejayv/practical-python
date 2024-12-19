@@ -720,37 +720,279 @@
 
 # portfolio_report(portfolio_filename, prices_filename)
 
-# Exercise 3.12: Using library module
+# # Exercise 3.12: Using library module
 
-import sys
+# import sys
+# import fileparse
+
+# def read_prices(filename):
+    # '''
+    # Use parse_csv module to read prices
+    # '''
+    # return dict(fileparse.parse_csv(filename, has_headers=False, types=[str,float]))
+
+# def read_portfolio(filename):
+    # '''
+    # Use parse_csv module to read portfolio
+    # '''
+    # return fileparse.parse_csv(filename, types=[str, int, float], select=['name', 'shares', 'price'])
+
+# def make_report_data(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
+        # holding.append(stock)
+        
+    # return holding
+
+# def print_report(reportdata):
+    # '''
+    # This function prints a tabulated report of any data inputted as reportdata
+    # '''
+    # headers = ('Name', 'Shares', 'Price', 'Change')
+    # print('%10s %10s %10s %10s' % headers)
+    # print(('-' * 10 + ' ') * len(headers))
+    
+    # for row in reportdata:
+        # print('%10s %10d %10.2f %10.2f' % row)
+
+# def portfolio_report(portfolio_filename, prices_filename):
+    
+    # portfolio = read_portfolio(portfolio_filename)
+    # prices    = read_prices(prices_filename)
+        
+    # report = make_report_data(portfolio, prices)
+
+    # print_report(report)
+    
+# if len(sys.argv) == 3:
+    # portfolio_filename = sys.argv[1]
+    # prices_filename = sys.argv[2]
+# else:
+    # portfolio_filename = 'Data/portfolio.csv'
+    # prices_filename = 'Data/prices.csv'
+
+# portfolio_report(portfolio_filename, prices_filename)
+
+# # portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+
+# # Exercise 3.15a: main() functions
+
+# import fileparse
+
+# def read_prices(filename):
+    # '''
+    # Use parse_csv module to read prices
+    # '''
+    # return dict(fileparse.parse_csv(filename, has_headers=False, types=[str,float]))
+
+# def read_portfolio(filename):
+    # '''
+    # Use parse_csv module to read portfolio
+    # '''
+    # return fileparse.parse_csv(filename, types=[str, int, float], select=['name', 'shares', 'price'])
+
+# def make_report_data(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
+        # holding.append(stock)
+        
+    # return holding
+
+# def print_report(reportdata):
+    # '''
+    # This function prints a tabulated report of any data inputted as reportdata
+    # '''
+    # headers = ('Name', 'Shares', 'Price', 'Change')
+    # print('%10s %10s %10s %10s' % headers)
+    # print(('-' * 10 + ' ') * len(headers))
+    
+    # for row in reportdata:
+        # print('%10s %10d %10.2f %10.2f' % row)
+
+# def portfolio_report(portfolio_filename, prices_filename):
+    
+    # portfolio = read_portfolio(portfolio_filename)
+    # prices    = read_prices(prices_filename)
+        
+    # report = make_report_data(portfolio, prices)
+
+    # print_report(report)
+    
+# def main(argv):
+    
+    # portfolio_filename = argv[1]
+    # prices_filename = argv[2]
+    
+    # portfolio_report(portfolio_filename, prices_filename)
+    
+# # Exercise 3.16a: Making Scripts
+
+# import fileparse
+
+# def read_prices(filename):
+    # '''
+    # Use parse_csv module to read prices
+    # '''
+    # with open(filename) as lines:
+        # return dict(fileparse.parse_csv(lines, has_headers=False, types=[str,float]))
+
+# def read_portfolio(filename):
+    # '''
+    # Use parse_csv module to read portfolio
+    # '''
+    # with open(filename) as lines:
+        # return fileparse.parse_csv(lines, types=[str, int, float], select=['name', 'shares', 'price'])
+
+# def make_report_data(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
+        # holding.append(stock)
+        
+    # return holding
+
+# def print_report(reportdata):
+    # '''
+    # This function prints a tabulated report of any data inputted as reportdata
+    # '''
+    # headers = ('Name', 'Shares', 'Price', 'Change')
+    # print('%10s %10s %10s %10s' % headers)
+    # print(('-' * 10 + ' ') * len(headers))
+    
+    # for row in reportdata:
+        # print('%10s %10d %10.2f %10.2f' % row)
+
+# def portfolio_report(portfolio_filename, prices_filename):
+    
+    # portfolio = read_portfolio(portfolio_filename)
+    # prices    = read_prices(prices_filename)
+        
+    # report = make_report_data(portfolio, prices)
+
+    # print_report(report)
+    
+# def main(argv):
+    
+    # portfolio_filename = argv[1]
+    # prices_filename = argv[2]
+    
+    # portfolio_report(portfolio_filename, prices_filename)
+
+# if __name__ == '__main__':
+    # import sys
+    # main(sys.argv)
+    
+# # Module 4.1 Exercise 4.4: Using your class
+
+# import fileparse
+# import stock
+
+# def read_prices(filename):
+    # '''
+    # Use parse_csv module to read prices
+    # '''
+    # with open(filename) as lines:
+        # return dict(fileparse.parse_csv(lines, has_headers=False, types=[str,float]))
+        
+# def read_portfolio(filename):
+    # '''
+    # Use parse_csv module to read portfolio
+    # '''
+    # with open(filename) as lines:
+        # portdicts = fileparse.parse_csv(lines, types=[str, int, float], select=['name', 'shares', 'price'])
+    # portfolio = [stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts]
+    # return portfolio
+    
+# def make_report_data(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s.name, s.shares, prices[s.name], prices[s.name] - s.price)
+        # holding.append(stock)
+        
+    # return holding
+
+# def print_report(reportdata):
+    # '''
+    # This function prints a tabulated report of any data inputted as reportdata
+    # '''
+    # headers = ('Name', 'Shares', 'Price', 'Change')
+    # print('%10s %10s %10s %10s' % headers)
+    # print(('-' * 10 + ' ') * len(headers))
+    
+    # for row in reportdata:
+        # print('%10s %10d %10.2f %10.2f' % row)
+
+# def portfolio_report(portfolio_filename, prices_filename):
+    
+    # portfolio = read_portfolio(portfolio_filename)
+    # prices    = read_prices(prices_filename)
+    
+    # report = make_report_data(portfolio, prices)
+    
+    # print_report(report)
+    
+# def main(argv):
+    
+    # if len(argv) != 3:
+        # raise SystemExit('Usage: %s portfile pricefile' % argv[0])
+    # portfolio_report(argv[1], argv[2])
+    
+# if __name__ == '__main__':
+    # import sys
+    # main(sys.argv)
+    
+# Module 4.2 Exercise 4.5: An Extensibility Problem
+
 import fileparse
+import stock
+import tableformat
 
 def read_prices(filename):
     '''
     Use parse_csv module to read prices
     '''
-    return dict(fileparse.parse_csv(filename, has_headers=False, types=[str,float]))
-
+    with open(filename) as lines:
+        return dict(fileparse.parse_csv(lines, has_headers=False, types=[str,float]))
+        
 def read_portfolio(filename):
     '''
     Use parse_csv module to read portfolio
     '''
-    return fileparse.parse_csv(filename, types=[str, int, float], select=['name', 'shares', 'price'])
-
+    with open(filename) as lines:
+        portdicts = fileparse.parse_csv(lines, types=[str, int, float], select=['name', 'shares', 'price'])
+    portfolio = [stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts]
+    return portfolio
+    
 def make_report_data(portfolio, prices):
     
     holding = []
     
     for s in portfolio:
-        stock = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
+        stock = (s.name, s.shares, prices[s.name], prices[s.name] - s.price)
         holding.append(stock)
         
     return holding
 
-def print_report(reportdata):
+def print_report(reportdata, formatter):
     '''
-    This function prints a tabulated report of any data inputted as reportdata
+    Print a nicely formatted table from a list of (name, shares, price, change) tuples.
     '''
+    formatter.headings(['Name','Shares','Price','Change'])
+    for name, shares, price, change in reportdata:
+        rowdata = [name, str(shares), f'{price:0.2f}', f'{change:0.2f}']
+        formatter.row(rowdata)
+    
+    
     headers = ('Name', 'Shares', 'Price', 'Change')
     print('%10s %10s %10s %10s' % headers)
     print(('-' * 10 + ' ') * len(headers))
@@ -762,18 +1004,19 @@ def portfolio_report(portfolio_filename, prices_filename):
     
     portfolio = read_portfolio(portfolio_filename)
     prices    = read_prices(prices_filename)
-        
-    report = make_report_data(portfolio, prices)
-
-    print_report(report)
     
-if len(sys.argv) == 3:
-    portfolio_filename = sys.argv[1]
-    prices_filename = sys.argv[2]
-else:
-    portfolio_filename = 'Data/portfolio.csv'
-    prices_filename = 'Data/prices.csv'
+    report = make_report_data(portfolio, prices)
+    
+    formatter = tableformat.TableFormatter()
+    print_report(report, formatter)
+    
+def main(argv):
+    
+    if len(argv) != 3:
+        raise SystemExit('Usage: %s portfile pricefile' % argv[0])
+    portfolio_report(argv[1], argv[2])
+    
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
 
-portfolio_report(portfolio_filename, prices_filename)
-
-# portfolio_report('Data/portfolio.csv', 'Data/prices.csv')

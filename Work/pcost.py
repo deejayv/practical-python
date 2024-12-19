@@ -22,7 +22,6 @@
 
 # portfolio_open.close()
 
-
 # # Solution
 
 # total_cost = 0.0
@@ -243,24 +242,83 @@
 # cost = portfolio_cost(filename)
 # print(f"Total cost: {cost}")
 
-# Exercise 3.14: Using more library module
+# # Exercise 3.14: Using more library module
+
+# import report
+
+# def portfolio_cost(filename):
+    # '''    
+    # This function calculates the total cost of the portfolio in the file
+    # '''
+    # portfolio = report.read_portfolio(filename)
+
+    # return sum([s['shares'] * s['price'] for s in portfolio])
+    
+# import sys   
+
+# if len(sys.argv) == 2:
+    # filename = sys.argv[1]
+# else:
+    # filename = input('Enter a filename:')
+    
+# cost = portfolio_cost(filename)
+# print(f'Total cost: {cost}')
+
+# # Exercise 3.15b: main() functions
+
+# import report
+
+# def portfolio_cost(filename):
+    # '''    
+    # This function calculates the total cost of the portfolio in the file
+    # '''
+    # portfolio = report.read_portfolio(filename)
+
+    # return sum([s['shares'] * s['price'] for s in portfolio])
+    
+# def main(argv):
+    
+    # cost = portfolio_cost(argv[1])
+    # print(f'Total cost: {cost}')
+    
+# # Exercise 3.16b: Making scripts
+
+# import report
+
+# def portfolio_cost(filename):
+    # '''    
+    # This function calculates the total cost of the portfolio in the file
+    # '''
+    # portfolio = report.read_portfolio(filename)
+
+    # return sum([s['shares'] * s['price'] for s in portfolio])
+    
+# def main(argv):
+    
+    # cost = portfolio_cost(argv[1])
+    # print(f'Total cost: {cost}')
+    
+# if __name__ == '__main__':
+    # import sys
+    # main(sys.argv)
+    
+# Module 4.1 Exercise 4.4: Using your class
 
 import report
 
 def portfolio_cost(filename):
-    '''    
+    '''
     This function calculates the total cost of the portfolio in the file
     '''
     portfolio = report.read_portfolio(filename)
-
-    return sum([s['shares'] * s['price'] for s in portfolio])
     
-import sys   
-
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
-else:
-    filename = input('Enter a filename:')
+    return sum([s.shares * s.price for s in portfolio])
     
-cost = portfolio_cost(filename)
-print(f'Total cost: {cost}')
+def main(argv):
+    
+    cost = portfolio_cost(argv[1])
+    print(f'Total cost: {cost}')
+    
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
