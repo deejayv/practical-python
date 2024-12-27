@@ -302,17 +302,36 @@
     # import sys
     # main(sys.argv)
     
-# Module 4.1 Exercise 4.4: Using your class
+# # Module 4.1 Exercise 4.4: Using your class
+
+# import report
+
+# def portfolio_cost(filename):
+    # '''
+    # This function calculates the total cost of the portfolio in the file
+    # '''
+    # portfolio = report.read_portfolio(filename)
+    # return sum([s.shares * s.price for s in portfolio])
+    
+# def main(argv):
+    
+    # cost = portfolio_cost(argv[1])
+    # print(f'Total cost: {cost}')
+    
+# if __name__ == '__main__':
+    # import sys
+    # main(sys.argv)
+    
+# Module 6.1 Exercise 6.2: Supporting Iteration
 
 import report
 
 def portfolio_cost(filename):
     '''
-    This function calculates the total cost of the portfolio in the file
+    Computes the total cost (shares*price) of a portfolio file
     '''
     portfolio = report.read_portfolio(filename)
-    
-    return sum([s.shares * s.price for s in portfolio])
+    return portfolio.total_cost
     
 def main(argv):
     

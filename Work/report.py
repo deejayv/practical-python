@@ -1293,10 +1293,77 @@
     # import sys
     # main(sys.argv)
     
-# Module 4.2 Exercise 4.8: Putting it all together
+# # Module 4.2 Exercise 4.8: Putting it all together
+
+# import fileparse
+# import stock
+# import tableformat
+
+# def read_prices(filename):
+    # '''
+    # Use parse_csv module to read prices
+    # '''
+    # with open(filename) as lines:
+        # return dict(fileparse.parse_csv(lines, has_headers=False, types=[str,float]))
+
+# def read_portfolio(filename):
+    # '''
+    # Use parse_csv module to read portfolio
+    # '''
+    # with open(filename) as lines:
+        # portdicts = fileparse.parse_csv(lines, types=[str, int, float], select=['name', 'shares', 'price'])
+    # portfolio = [stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts]
+    # return portfolio
+
+# def make_report_data(portfolio, prices):
+    
+    # holding = []
+    
+    # for s in portfolio:
+        # stock = (s.name, s.shares, prices[s.name], prices[s.name] - s.price)
+        # holding.append(stock)
+        
+    # return holding
+
+# def print_report(reportdata, formatter):
+    # '''
+    # Print a nicely formatted table from a list of (name, shares, price, change) tuples.
+    # '''
+    # formatter.headings(['Name','Shares','Price','Change'])
+    # for name, shares, price, change in reportdata:
+        # rowdata = [name, str(shares), f'{price:0.2f}', f'{change:0.2f}']
+        # formatter.row(rowdata)
+
+# def portfolio_report(portfolio_filename, prices_filename, fmt='txt'):
+    # '''
+    # Make a stock report given portfolio and price data files.
+    # '''
+    # # Read data files
+    # portfolio = read_portfolio(portfolio_filename)
+    # prices = read_prices(prices_filename)
+    
+    # # Create the report data
+    # report = make_report_data(portfolio, prices)
+    
+    # # Print it out
+    # formatter = tableformat.create_formatter(fmt)
+    # print_report(report, formatter)
+
+# def main(argv):
+    
+    # if len(argv) != 4:
+        # raise SystemExit('Usage: %s portfile pricefile dataformat' % argv[0])
+    # portfolio_report(argv[1], argv[2], argv[3])
+
+# if __name__ == '__main__':
+    # import sys
+    # main(sys.argv)
+
+# Module 6.1 Exercise 6.2: Supporting Iteration
 
 import fileparse
-import stock
+from stock import Stock
+from portfolio import Portfolio
 import tableformat
 
 def read_prices(filename):
@@ -1308,13 +1375,17 @@ def read_prices(filename):
 
 def read_portfolio(filename):
     '''
-    Use parse_csv module to read portfolio
+    Read a stock portfolio file into a list of dictionaries with keys
+    name, shares and price
     '''
-    with open(filename) as lines:
-        portdicts = fileparse.parse_csv(lines, types=[str, int, float], select=['name', 'shares', 'price'])
-    portfolio = [stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts]
-    return portfolio
-
+    with open(filename) as file:
+        portdicts = fileparse.parse_csv(file,
+                                        select=['name','shares','price'],
+                                        types=[str,int,float])
+    
+    portfolio = [ Stock(d['name'], d['shares'], d['price']) for d in portdicts ]
+    return Portfolio(portfolio)
+    
 def make_report_data(portfolio, prices):
     
     holding = []
@@ -1322,7 +1393,7 @@ def make_report_data(portfolio, prices):
     for s in portfolio:
         stock = (s.name, s.shares, prices[s.name], prices[s.name] - s.price)
         holding.append(stock)
-        
+    
     return holding
 
 def print_report(reportdata, formatter):
@@ -1353,6 +1424,7 @@ def main(argv):
     
     if len(argv) != 4:
         raise SystemExit('Usage: %s portfile pricefile dataformat' % argv[0])
+    
     portfolio_report(argv[1], argv[2], argv[3])
 
 if __name__ == '__main__':
